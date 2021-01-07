@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Lemongrocer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="card-background-page">
+  <ion-card id="myCard">
+    <a routerLink="/order">
+    <img src="../../../../../assets/shop1.jpeg" />
+    <div class="myOverlay">
+      <div class="card-title">Today's Order</div>
+      <div id="text" class="card-subtitle"></div>
+    </div></a>
+  </ion-card>
+  <ion-card>
+    <a routerLink="/wallet">
+    <img src="../../../../../assets/shop2.jpeg"/>
+    <div class="myOverlay">
+      <div class="card-title">Wallet<br />Transaction</div>
+      <div class="card-subtitle"></div>
+    </div></a>
+  </ion-card>
+  <ion-card>
+    <a routerLink="/logistics">
+    <img src="../../../../../assets/shop3.jpeg"/>
+    <div class="myOverlay">
+      <div class="card-title">Logistics </div>
+      <div class="card-subtitle"></div>
+    </div></a>
+  </ion-card>
+  <ion-card>
+    <a routerLink="/pricing">
+    <img src="../../../../../assets/shop4.jpeg"/>
+    <div class="myOverlay">
+      <div class="card-title">Product<br />Details</div>
+      <div class="card-subtitle"></div>
+    </div></a>
+  </ion-card>
+  <ion-card>
+    <a routerLink="/suggestion">
+    <img src="../../../../../assets/shop5.jpeg"/>
+    <div class="myOverlay">
+      <div class="card-title">Product<br />Suggestion</div>
+      <div class="card-subtitle"></div>
+    </div></a>
+  </ion-card>
+</ion-content>

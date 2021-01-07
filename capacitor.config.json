@@ -1,0 +1,8 @@
+{
+  "appId": "com.lemon.vendor",
+  "appName": "Lemongrocer Market",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

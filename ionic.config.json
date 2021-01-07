@@ -1,0 +1,9 @@
+{
+  "name": "lgvendor",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "0d0846e2"
+}

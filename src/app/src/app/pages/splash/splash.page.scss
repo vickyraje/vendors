@@ -1,0 +1,16 @@
+#container {
+   /*background-image: url("../../../../../assets/splash.jpg");*/
+   background-color: #95835d;
+   height: 100%;
+   background-size: cover;
+   background-position-x: -60px;
+}
+#splash {
+   text-align: center;
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 35%;
+   transform: translateY(-10%);
+   padding: 20px;
+ }

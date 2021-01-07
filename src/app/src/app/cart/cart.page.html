@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Cart <ion-button [routerLink]="['/checkout']" style="float:right">Checkout</ion-button></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row *ngFor ="let b2bProductList of b2bProductLists; let i = index">
+      <ion-col>
+        <ion-card>
+          <img src="{{ b2bProductList.image }}"/>
+          <div class="card-title"><b>Name  : </b> {{ b2bProductList.pname }}</div>
+          <div class="card-title"><b>Price : </b> {{ b2bProductList.price|number:'1.2-2' }}</div>
+          <div class="card-title"><ion-icon size="large" (click)="minusCartValue(b2bProductList)" name="remove-circle-outline"></ion-icon><span style="font-size: 26px;"> {{ b2bProductList.qty }} </span><ion-icon size="large" (click)="addCartValue(b2bProductList)" name="add-circle-outline"></ion-icon> <ion-icon size="large" style="float:right" (click)="removeCart(b2bProductList)" name="trash-outline"></ion-icon> </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

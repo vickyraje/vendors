@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Wallet Transactions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!--<div class="ion-text-center ion-margin-top">
+    <img src="../../../../../assets/wallet.png" width="30%">
+  </div>-->
+  <ion-title><h2>₹ {{total_suma-0|number:'1.2-2'}} &nbsp; <ion-button size="default" color="success" >WITHDRAW</ion-button></h2></ion-title>
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center" size="4" style="background:#F44336;color:#FFF">
+          Total Bill Value <br/> <span>₹ {{total_suma|number:'1.2-2'}}</span>
+        </ion-col> 
+        <ion-col class="ion-text-center" (click)="showIds()" size="4" style="background:#ff9800;color:#FFF">
+          Debit Note <br/> <span>₹ 0.00</span>
+        </ion-col> 
+        <ion-col class="ion-text-center" size="4" style="background:#4CAF50;color: #FFF;"> Amount to be Transfered <br/> <span>₹ {{total_suma-0|number:'1.2-2'}}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <table border="1" width="100%" height="100%">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Order ID</th>
+              <th>Bill Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor ="let wallet of walllets;let i = index" class="text-center">
+              <td style="margin-left:20px">{{i+1}}</td>
+              <td>#{{ wallet.id }}</td>
+              <td>₹ {{ wallet.total_fare|number:'1.2-2'}} </td>
+            </tr>
+            <tr class="text-center">
+              <td colspan="2">Sub Total</td>
+              <td>₹ {{total_suma|number:'1.2-2'}}</td>
+            </tr>
+            <!--<tr class="text-center">
+              <td colspan="2">Debit Note ID</td>
+              <td>#11111</td>
+            </tr>-->
+            <tr class="text-center">
+              <td colspan="2">Debit Note</td>
+              <td>₹ {{0|number:'1.2-2'}}</td>
+            </tr>
+            <tr class="text-center">
+              <td colspan="2">Amount to be Transfered</td>
+              <td>₹ {{total_suma-0|number:'1.2-2'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <table border="1" width="100%">
+          <tbody>
+            <tr class="text-center">
+              <td colspan="2">Date</td>
+              <td>2020-10-22</td>
+            </tr>
+            <tr class="text-center">
+              <td colspan="2">Total no.of orders</td>
+              <td>{{totalnoorder}}</td>
+            </tr>
+            <tr class="text-center">
+              <td colspan="2">Total no.of bundles</td>
+              <td>10</td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>
+
+<!-- Debit Note Details-->
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="status ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="closePopup();"></div>            
+  <div class="popup" >
+      <button class="close-bar close-icon" (click)="closePopup();"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h3>Debit Note ID's </h3>
+        <div class="reduced-points feedback-info">
+          No Debit Note Found
+       </div> 
+   </div>
+</div>

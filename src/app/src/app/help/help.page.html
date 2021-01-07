@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Help <ion-icon (click)="addNew()" size="large" style="float:right" name="add-circle"></ion-icon></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor ="let help of helps">
+    <ion-card-header style="float:left">
+      <ion-card-subtitle><b>Date:</b> {{ help.created_at }} </ion-card-subtitle>
+      <ion-card-title>Title: {{ help.title }} </ion-card-title>
+      <ion-card-subtitle><b>Description:</b> {{ help.description }} </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-header style="float:right;text-align: right;">
+      <span *ngIf="help.rply">
+      <ion-card-subtitle><b>Date:</b> {{ help.updated_at }} </ion-card-subtitle>
+      <ion-card-subtitle> {{ help.rply }} </ion-card-subtitle></span>
+    </ion-card-header>
+  </ion-card>
+</ion-content>
+
+<!-- Add New-->
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="newHelp ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="addNewClose();"></div>            
+  <div class="popup" >
+      <button class="close-bar close-icon" (click)="addNewClose();"><i class="fa fa-times" aria-hidden="true"></i></button>
+      <h3>Queries</h3>
+      <form #form="ngForm" (ngSubmit)="helpSubmit(form)" method="post">
+        <div class="reduced-points feedback-info">
+          <ion-item>
+            <ion-label>Title</ion-label>
+            <ion-input type="text" ngModel name="title"></ion-input>
+          </ion-item><br />
+          <ion-item>
+            <ion-label>Description</ion-label>
+            <ion-textarea ngModel name="description"></ion-textarea>
+          </ion-item><br />
+          <ion-button type="submit" color="success" class="login-btn">Submit</ion-button>
+        </div>
+      </form>
+   </div>
+</div>

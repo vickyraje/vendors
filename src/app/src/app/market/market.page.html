@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Lemongrocer Market <ion-badge style="float:right" *ngIf="itemCart.length" >{{itemCart.length}}</ion-badge> <ion-icon [routerLink]="['/cart']" style="float:right" name="cart"></ion-icon></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar>
+  <ion-searchbar inputmode="text"  (ionInput)="onInput($event)" showCancelButton="focus" cancelButtonText="Custom Cancel"></ion-searchbar>
+</ion-toolbar>
+<!--card-subtitle-->
+<ion-content>
+  <ion-grid>
+    <ion-row *ngFor ="let b2bProductList of b2bProductLists; let i = index">
+      <ion-col>
+        <ion-card>
+            <img (click)="openProductDetail(b2bProductList.id);" src="{{ b2bProductList.image }}"/>
+            <div (click)="openProductDetail(b2bProductList.id);" class="card-title"><b>Name  : </b> {{ b2bProductList.pname }}</div>
+            <div class="card-title"><b>Price : </b> {{ b2bProductList.price }}</div>
+            <!--<div class="card-title"><b>Validity : </b> 10 Days</div>
+            <div class="card-title"><b>Min Order : </b> 100Kg</div>-->
+            <ion-button color="primary" (click)="addToCart(b2bProductList)" class="mt-5">ADD TO CART</ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- All Order Packup-->
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="productDetails ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="closeProductDetail();"></div>            
+  <div class="popup" >
+    <button class="close-bar close-icon" (click)="closeProductDetail();"><i class="fa fa-times" aria-hidden="true"></i></button>
+    <div class="">
+      <h2>{{ this.b2bProductName }}</h2>
+      <ion-slides [options]="slideOptsOne" #slideWithNav  (ionSlideDidChange)="SlideDidChange(sliderOne,slideWithNav)">
+        <ion-slide *ngFor ="let b2bProductImage of b2bProductImages">
+          <img src="{{ b2bProductImage.image }}">
+        </ion-slide>
+     </ion-slides>
+      <!--<div class="card-title">Tamil Name </div>
+      <div class="card-title"><b>Price : </b> 100 </div>
+      <div class="card-title"><b>Orgin : </b> AAAA </div>
+      <div class="card-title"><b>Min Order : </b> 10 Kg </div>
+      <div class="card-title"><b>Validity : </b> 100 </div>
+      <div class="card-title"><b>Description : </b> DescriptionDescription Description </div>-->
+      <ion-button type="button" color="primary" (click)="closeProductDetail()" class="login-btn">ADD TO CART</ion-button>
+    </div> 
+   </div>
+</div>

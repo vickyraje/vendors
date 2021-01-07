@@ -1,0 +1,152 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Today's order <ion-button style="float:right" type="button" color="success" (click)="allOrderPackup()" class="login-btn">PackedUp</ion-button></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar>
+  <ion-searchbar inputmode="text"  (ionInput)="onInput($event)" showCancelButton="focus" cancelButtonText="Custom Cancel"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="ion-text-center">
+    <h2 *ngIf="empty=='No Orders'">No Orders</h2>
+  </div>
+  
+  <ion-card *ngFor ="let order of orders">
+    <ion-card-header *ngIf="order.order_status==1" class="bg-red">
+      <ion-card-title>Order ID: #{{ order.id }} <span id="countdown1" style="float:right;font-size:26px;"> <!--{{timer(1,300)}} {{start(order.id)}} {{ hhmmss }}--></span></ion-card-title>
+      <ion-card-subtitle><b>Date:</b> {{ order.created_at }} </ion-card-subtitle>
+      <!--<ion-card-subtitle><b>Customer ID:</b>  {{ order.user_id }}</ion-card-subtitle>-->
+      <ion-card-subtitle><b>Customer Name:</b>  {{ order.user_name }} <img style="float: right;" width="10%" src="{{order.bill}}" /></ion-card-subtitle>
+      <ion-card-subtitle><b>City:</b> Madurai</ion-card-subtitle>
+      <ion-card-subtitle><b>Total Amt:</b> ₹ {{ order.total_fare|number:'1.2-2' }} </ion-card-subtitle>
+      <ion-button color="primary" class="flt-left text-right" (click)="openPopup()">Order</ion-button> 
+      <ion-button color="danger" (click)="venApprove(order.id)" class="flt-left text-right">Accept </ion-button> 
+      <ion-button color="danger" (click)="venApprove(order.id)" class="flt-left text-right">Deny </ion-button> <img style="float: right;margin-top: 15px;" width="10%" src="'../../assets/Deny.png" />
+    </ion-card-header>
+    <ion-card-header *ngIf="order.order_status!=1" class="bg-green">
+      <ion-card-title>Order ID: #{{ order.id }} <img (click)="shareMobile(order.id)" style="float: right;" width="10%" src="../../assets/AutoBill.png" /></ion-card-title>
+      <ion-card-subtitle><b>Date:</b> {{ order.created_at }} </ion-card-subtitle>
+      <!--<ion-card-subtitle><b>Customer ID:</b>  {{ order.user_id }}</ion-card-subtitle>-->
+      <ion-card-subtitle><b>Customer Name:</b>  {{ order.user_name }}</ion-card-subtitle>
+      <ion-card-subtitle><b>City:</b>  Madurai </ion-card-subtitle>
+      <ion-card-subtitle><b>Total Amt:</b> ₹ {{ order.total_fare|number:'1.2-2' }} </ion-card-subtitle> 
+      <ion-button color="primary" class="flt-left text-right" (click)="openPopup(order.id)">Order</ion-button>
+      <ion-button color="{{order.color}}" class="flt-left text-right" >Accept</ion-button>
+      <span *ngIf="order.order_status==3">
+      <ion-button color="{{order.color}}" (click)="openReadyPopup(order.id)" class="flt-left text-right">{{ order.status}} </ion-button></span> 
+      <span *ngIf="order.order_status==4">
+      <ion-button color="{{order.color}}" class="flt-left text-right" >Ready</ion-button>
+      <ion-button color="{{order.color}}" class="flt-left text-right">{{ order.status}} </ion-button></span><img style="float:right;margin-top: 15px;" width="10%" src="../../assets/Greentick.png" />
+    </ion-card-header>
+  </ion-card>
+</ion-content>
+
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="status ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="closePopup();"></div>            
+  <div class="popup" >
+      <button class="close-bar close-icon" (click)="closePopup();"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h3>Order List </h3>
+        <div class="reduced-points feedback-info">
+          <table width="100%" mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-style">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element"> {{element.sno}} </td>
+              <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+          
+            <!-- Price Column -->
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef> Price </th>
+              <td mat-cell *matCellDef="let element">₹ {{element.price|number:'1.2-2'}} </td>
+              <td mat-footer-cell *matFooterCellDef> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef> Unit </th>
+              <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+              <td mat-footer-cell *matFooterCellDef> Total </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="qty">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
+              <td mat-footer-cell *matFooterCellDef>{{totalnoorder}}</td>
+            </ng-container>
+          
+            <!-- Units Column -->
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Total </th>
+              <td mat-cell *matCellDef="let element">₹ {{element.total|number:'1.2-2'}} </td>
+              <td mat-footer-cell *matFooterCellDef>{{total_suma|number:'1.2-2'}}</td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+          </table>
+       </div> 
+   </div>
+</div>
+
+<!-- All Order Packup-->
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="packingup ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="allOrderPackupClose();"></div>            
+  <div class="popup" >
+      <button class="close-bar close-icon" (click)="allOrderPackupClose();"><i class="fa fa-times" aria-hidden="true"></i></button>
+        <h3>Today's Order Packingup </h3>
+        <h5>Your OTP Password : {{otp}}</h5>
+        <div class="reduced-points feedback-info">
+          <ion-item>
+            <ion-label>OTP No</ion-label>
+            <ion-input ngModel type="text" name="otp"></ion-input>
+          </ion-item><br />
+          <ion-button type="button" color="success" (click)="otpCheck()" class="login-btn">Submit</ion-button>
+       </div> 
+   </div>
+</div>
+
+<!-- Weight Calculation-->
+<div class="cm-bottom-sheet full-h-sheet" [ngClass]="ready ? 'open-checker' : 'close-checker'">    
+  <div class="close-space" (click)="closeReadyPopup();"></div>            
+  <div class="popup" >
+    <button class="close-bar close-icon" (click)="closeReadyPopup();"><i class="fa fa-times" aria-hidden="true"></i></button>
+    <h3>Weight Calculation</h3>
+    <form #form="ngForm" (ngSubmit)="weightUpdate(form)" method="post" style="padding-top: 40px;margin: 0 20px;">
+      <div class="mt-20">
+        <ion-input ngModel type="hidden" name="salesId" value="{{salesId}}"></ion-input>
+        <ion-item>
+          <ion-label>Total Weight</ion-label>
+          <ion-input #weight ngModel (change)="bundleno(weight.value)" type="text" name="weight"></ion-input>
+        </ion-item><br />
+        <ion-item>
+          <ion-label>No of Bundle</ion-label>
+          <ion-input #weight ngModel value="{{noofBunble}}" type="text" name="bundle"></ion-input>
+        </ion-item><br />
+        <ion-item *ngFor="let att of anArray;">
+          <ion-label>Bundle {{att.value}}</ion-label>
+          <ion-input ngModel value="" type="text" name="bundle{{att.value}}"></ion-input>
+        </ion-item>
+      </div><br />
+      <ion-button type="submit" color="success" class="login-btn">Submit</ion-button>
+    </form>
+  </div>
+</div>
